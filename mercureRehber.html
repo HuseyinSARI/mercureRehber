@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercure Trabzon | Dijital Gezi &amp; Lezzet Rehberi</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts: Plus Jakarta Sans & Noto Sans Arabic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mercure: {
+                            navy: '#0F172A',
+                            navySoft: '#1E293B',
+                            gold: '#D97706',
+                            goldLight: '#F59E0B',
+                            surface: '#F8FAFC'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', '"Noto Sans Arabic"', 'sans-serif'],
+                        arabic: ['"Noto Sans Arabic"', '"Plus Jakarta Sans"', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        body {
+            background-color: #F8FAFC;
+            color: #0F172A;
+            -webkit-tap-highlight-color: transparent;
+        }
+        html[dir="rtl"] body {
+            font-family: 'Noto Sans Arabic', 'Plus Jakarta Sans', sans-serif;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        #qrcode-container img,
+        #qrcode-container canvas {
+            margin: 0 auto;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-amber-500/20 selection:text-mercure-navy">
+
+    <!-- =======================================================================
+         ÜST BAŞLIK (MERCURE TRABZON MARKASI, TR/EN/AR DİL SEÇİCİ VE QR BUTONU)
+         ======================================================================= -->
+    <header class="sticky top-0 z-30 bg-mercure-navy text-white shadow-md border-b border-white/10">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+            <!-- Otel Logosu ve Başlık -->
+            <div class="flex items-center gap-2.5 min-w-0">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shrink-0 border border-amber-300/30 shadow-inner">
+                    <span class="font-extrabold text-white text-base">M</span>
+                </div>
+                <div class="min-w-0">
+                    <h1 class="font-extrabold tracking-wider text-xs sm:text-sm text-white truncate">MERCURE TRABZON</h1>
+                    <p id="header-subtitle" class="text-[11px] text-slate-300 truncate">Trabzon Şehir &amp; Lezzet Rehberi</p>
+                </div>
+            </div>
+
+            <!-- Sağ Kontroller: TR | EN | AR + QR Kod Butonu -->
+            <div class="flex items-center gap-2 shrink-0">
+                <div class="inline-flex items-center bg-mercure-navySoft p-1 rounded-full border border-white/10" role="group" aria-label="Language Switcher">
+                    <button onclick="setLanguage('tr')" id="btn-lang-tr" class="px-2.5 py-1 rounded-full text-xs font-bold transition-all bg-amber-500 text-mercure-navy cursor-pointer">TR</button>
+                    <button onclick="setLanguage('en')" id="btn-lang-en" class="px-2.5 py-1 rounded-full text-xs font-bold transition-all text-slate-300 hover:text-white cursor-pointer">EN</button>
+                    <button onclick="setLanguage('ar')" id="btn-lang-ar" class="px-2.5 py-1 rounded-full text-xs font-bold transition-all text-slate-300 hover:text-white cursor-pointer">AR</button>
+                </div>
+
+                <button
+                    onclick="openQrModal()"
+                    aria-label="QR Code"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-amber-300 border border-amber-400/30 text-xs font-bold transition-colors cursor-pointer"
+                >
+                    <i data-lucide="qr-code" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">QR</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ===================================================================
+             3 ANA KATEGORİ SEKMESİ (GEZİLECEK YERLER / RESTORANLAR / ALIŞVERİŞ)
+             =================================================================== -->
+        <nav class="bg-white text-mercure-navy border-b border-slate-200">
+            <div class="max-w-5xl mx-auto px-3 py-2">
+                <div id="category-tabs" class="grid grid-cols-3 gap-1.5 sm:gap-2.5">
+                    <!-- JavaScript ile 3 ana sekme oluşturulur -->
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- =======================================================================
+         ANA İÇERİK ALANI (YAKINDAN UZAĞA SIRALANMIŞ KART LİSTESİ)
+         ======================================================================= -->
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 py-5">
+        <!-- Kategori Başlığı, Yakından Uzağa Etiketi ve Kart Sayısı -->
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+            <div class="flex items-center gap-2">
+                <h2 id="active-category-heading" class="text-base sm:text-lg font-extrabold text-mercure-navy">Gezilecek Yerler</h2>
+                <span id="sort-order-badge" class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-200">
+                    <i data-lucide="arrow-up-narrow-wide" class="w-3 h-3"></i>
+                    <span id="sort-order-text">Otele Yakından Uzağa</span>
+                </span>
+            </div>
+            <span id="cards-count-badge" class="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-200/80 text-slate-700">0</span>
+        </div>
+
+        <!-- Kart Izgarası -->
+        <div id="cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            <!-- JavaScript ile kartlar yakından uzağa sıralı olarak buraya oluşturulur -->
+        </div>
+    </main>
+
+    <!-- Alt Bilgi -->
+    <footer class="bg-white border-t border-slate-200 py-4 px-4 text-center text-xs text-slate-500">
+        <p id="footer-note">Mercure Trabzon Hotel • Yomra / Kaşüstü • İyi Tatiller Dileriz</p>
+    </footer>
+
+    <!-- =======================================================================
+         DETAY FOTOĞRAF GALERİSİ (LIGHTBOX MODAL)
+         ======================================================================= -->
+    <div id="gallery-modal" class="fixed inset-0 z-50 hidden bg-slate-950/95 backdrop-blur-sm flex flex-col justify-between p-4 select-none">
+        <div class="max-w-4xl w-full mx-auto flex items-center justify-between text-white py-2">
+            <div class="min-w-0 pe-3">
+                <h3 id="gallery-title" class="font-bold text-sm sm:text-base truncate">Başlık</h3>
+                <p id="gallery-counter" class="text-xs text-amber-400 font-semibold">1 / 3</p>
+            </div>
+            <button
+                onclick="closeGalleryModal()"
+                aria-label="Kapat"
+                class="w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center shrink-0 transition-colors cursor-pointer"
+            >
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div id="gallery-touch-area" class="relative flex-1 max-w-4xl w-full mx-auto flex items-center justify-center my-2 overflow-hidden">
+            <button
+                onclick="prevGalleryPhoto()"
+                aria-label="Önceki Fotoğraf"
+                class="absolute start-2 z-10 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/55 hover:bg-black/80 text-white border border-white/20 flex items-center justify-center transition-colors cursor-pointer"
+            >
+                <i data-lucide="chevron-left" class="w-6 h-6 rtl:rotate-180"></i>
+            </button>
+
+            <img
+                id="gallery-main-img"
+                src=""
+                alt=""
+                onerror="this.src='https://placehold.co/900x600/1E293B/F8FAFC?text=Mercure+Trabzon'"
+                class="max-h-[68vh] w-auto max-w-full object-contain rounded-2xl shadow-2xl transition-opacity duration-200"
+            >
+
+            <button
+                onclick="nextGalleryPhoto()"
+                aria-label="Sonraki Fotoğraf"
+                class="absolute end-2 z-10 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/55 hover:bg-black/80 text-white border border-white/20 flex items-center justify-center transition-colors cursor-pointer"
+            >
+                <i data-lucide="chevron-right" class="w-6 h-6 rtl:rotate-180"></i>
+            </button>
+        </div>
+
+        <div id="gallery-thumbnails" class="max-w-4xl w-full mx-auto flex items-center justify-center gap-2 py-2 overflow-x-auto no-scrollbar">
+            <!-- JS ile küçük önizlemeler eklenir -->
+        </div>
+    </div>
+
+    <!-- =======================================================================
+         QR KOD PENCERESİ
+         ======================================================================= -->
+    <div id="qr-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeQrModal()" class="absolute inset-0 bg-mercure-navy/70 backdrop-blur-xs"></div>
+        <div class="relative bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 text-center space-y-4">
+            <button
+                onclick="closeQrModal()"
+                aria-label="Kapat"
+                class="absolute top-4 end-4 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center cursor-pointer"
+            >
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+
+            <div class="space-y-1 pt-1">
+                <span class="inline-block text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full bg-amber-100 text-amber-800">MERCURE TRABZON</span>
+                <h3 id="qr-modal-title" class="text-lg font-extrabold text-mercure-navy">Rehberi Telefonda Aç</h3>
+                <p id="qr-modal-desc" class="text-xs text-slate-500">Kameranızı okutarak dijital rehbere anında ulaşabilirsiniz.</p>
+            </div>
+
+            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 inline-block mx-auto">
+                <div id="qrcode-container"></div>
+            </div>
+
+            <div class="space-y-2">
+                <p id="qr-url-display" dir="ltr" class="text-[11px] text-slate-400 truncate px-2"></p>
+                <button
+                    onclick="copyCurrentPageUrl()"
+                    class="w-full py-2.5 px-4 rounded-xl bg-mercure-navy hover:bg-mercure-navySoft text-white text-xs font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                >
+                    <i data-lucide="copy" class="w-3.5 h-3.5 text-amber-400"></i>
+                    <span id="qr-copy-btn-text">Bağlantıyı Kopyala</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bildirim Kutusu (Toast) -->
+    <div id="toast-box" class="fixed bottom-5 inset-x-4 sm:inset-x-auto sm:end-5 z-50 pointer-events-none transition-all duration-300 translate-y-6 opacity-0">
+        <div class="bg-mercure-navy text-white px-4 py-3 rounded-xl shadow-xl border border-amber-500/40 flex items-center gap-2 text-xs font-bold max-w-xs mx-auto sm:mx-0">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400 shrink-0"></i>
+            <span id="toast-text">Kopyalandı</span>
+        </div>
+    </div>
+
+    <script>
+        /* =====================================================================
+           KOLAY DÜZENLENEBİLİR VERİ LİSTESİ (VS CODE İÇİN)
+           ---------------------------------------------------------------------
+           - distanceValue: Sayısal km değeri (otomatik yakından uzağa sıralama için)
+           - distanceLabel: Kartta görünen km metni (ör. '0.1 km', '~13 km')
+           - driveMinutes: Otelden araçla tahmini süre (dakika)
+           ===================================================================== */
+        const guideItems = [
+            // ================= 1. GEZİLECEK YERLER (visit) - YAKINDAN UZAĞA =================
+            {
+                id: 'kasustu-sahil',
+                category: 'visit',
+                title: {
+                    tr: 'Kaşüstü Sahil Yürüyüş Yolu',
+                    en: 'Kasustu Coastal Walk',
+                    ar: 'ممشى ساحل كاش أوستو'
+                },
+                area: {
+                    tr: 'Kaşüstü',
+                    en: 'Kasustu',
+                    ar: 'كاش أوستو'
+                },
+                distanceValue: 0.1,
+                distanceLabel: '0.1 km',
+                driveMinutes: 2,
+                description: {
+                    tr: 'Otelin hemen önünden başlayan, Karadeniz kıyısında yürüyüş ve dinlenme imkânı sunan sahil parkıdır.',
+                    en: 'Located right in front of the hotel, offering a relaxing seaside promenade along the Black Sea coast.',
+                    ar: 'يقع أمام الفندق مباشرة ويوفر مساراً للمشي والاسترخاء على ساحل البحر الأسود.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ka%C5%9F%C3%BCst%C3%BC+Sahil+Park%C4%B1+Trabzon'
+            },
+            {
+                id: 'ortahisar-kaleici',
+                category: 'visit',
+                title: {
+                    tr: 'Ortahisar (Kaleiçi) & Tarihi Sokaklar',
+                    en: 'Ortahisar Old Town & Historic Streets',
+                    ar: 'أورتاهيسار (المدينة القديمة)'
+                },
+                area: {
+                    tr: 'Ortahisar',
+                    en: 'Ortahisar',
+                    ar: 'أورتاهيسار'
+                },
+                distanceValue: 13,
+                distanceLabel: '~13 km',
+                driveMinutes: 16,
+                description: {
+                    tr: 'Tarihi surlar, Osmanlı konakları ve Gülbahar Hatun Camii ile şehrin eski dokusunu yaşatan bölgedir.',
+                    en: 'Preserves Trabzon’s historic fabric with ancient city walls, Ottoman mansions, and traditional streets.',
+                    ar: 'يحتفظ بالنسيج التاريخي للمدينة بأسواره القديمة وقصوره العثمانية وشوارعه التراثية.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ortahisar+Tarihi+Evleri+Trabzon'
+            },
+            {
+                id: 'boztepe',
+                category: 'visit',
+                title: {
+                    tr: 'Boztepe (Şehir Manzarası)',
+                    en: 'Boztepe Panoramic Viewpoint',
+                    ar: 'بوزتيبي (إطلالة بانورامية)'
+                },
+                area: {
+                    tr: 'Boztepe',
+                    en: 'Boztepe',
+                    ar: 'بوزتيبي'
+                },
+                distanceValue: 14,
+                distanceLabel: '~14 km',
+                driveMinutes: 20,
+                description: {
+                    tr: 'Trabzon şehrini ve Karadeniz’i kuş bakışı izleyerek semaverde çay içebileceğiniz en keyifli tepedir.',
+                    en: 'The best hilltop spot to enjoy traditional Turkish tea with a panoramic view of Trabzon and the Black Sea.',
+                    ar: 'أجمل تلة للاستمتاع بالشاي التركي مع إطلالة بانورامية على مدينة طرابزون والبحر الأسود.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Boztepe+Seyir+Teras%C4%B1+Trabzon'
+            },
+            {
+                id: 'ayasofya-camii',
+                category: 'visit',
+                title: {
+                    tr: 'Ayasofya Camii (Müzesi)',
+                    en: 'Hagia Sophia Mosque & Museum',
+                    ar: 'مسجد ومتحف آيا صوفيا'
+                },
+                area: {
+                    tr: 'Fatih',
+                    en: 'Fatih',
+                    ar: 'فاتح'
+                },
+                distanceValue: 16,
+                distanceLabel: '~16 km',
+                driveMinutes: 20,
+                description: {
+                    tr: '13. yüzyıldan kalma taş işçiliği, freskleri ve deniz manzaralı bahçesiyle öne çıkan tarihi yapıdır.',
+                    en: 'A 13th-century architectural gem renowned for its stone carvings, frescoes, and sea-view garden.',
+                    ar: 'تحفة معمارية تعود للقرن الثالث عشر تشتهر بنقوشها الحجرية وحديقتها المطلة على البحر.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Trabzon+Ayasofya+Camii'
+            },
+            {
+                id: 'ataturk-kosku',
+                category: 'visit',
+                title: {
+                    tr: 'Atatürk Köşkü',
+                    en: 'Ataturk Pavilion',
+                    ar: 'قصر أتاتورك'
+                },
+                area: {
+                    tr: 'Soğuksu',
+                    en: 'Soguksu',
+                    ar: 'صوغوكسو'
+                },
+                distanceValue: 18,
+                distanceLabel: '~18 km',
+                driveMinutes: 25,
+                description: {
+                    tr: 'Çam ormanları içindeki zarif mimarisi ve bakımlı çiçek bahçesiyle şehrin en güzel tarihi köşküdür.',
+                    en: 'Set among pine forests, this historic mansion stands out with its elegant architecture and flower gardens.',
+                    ar: 'يقع وسط غابات الصنوبر ويتميز بهندسته المعمارية الأنيقة وحدائقه المزهرة الجميلة.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Atat%C3%BCrk+K%C3%B6%C5%9Fk%C3%BC+Trabzon'
+            },
+            {
+                id: 'sera-golu',
+                category: 'visit',
+                title: {
+                    tr: 'Sera Gölü Tabiat Parkı',
+                    en: 'Sera Lake Nature Park',
+                    ar: 'بحيرة سيرا الطبيعية'
+                },
+                area: {
+                    tr: 'Akçaabat',
+                    en: 'Akcaabat',
+                    ar: 'أكشبات'
+                },
+                distanceValue: 25,
+                distanceLabel: '~25 km',
+                driveMinutes: 30,
+                description: {
+                    tr: 'Şehre yakın mesafede göl kenarında yürüyüş, deniz bisikleti ve doğa molası için ideal bir tabiat parkıdır.',
+                    en: 'Close to the city, ideal for lakeside walks, pedal boating, and relaxing in lush green nature.',
+                    ar: 'قريبة من المدينة ومثالية للمشي بجانب البحيرة وركوب القوارب والاسترخاء في الطبيعة.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Sera+G%C3%B6l%C3%BC+Trabzon'
+            },
+            {
+                id: 'sumela-manastiri',
+                category: 'visit',
+                title: {
+                    tr: 'Sümela Manastırı',
+                    en: 'Sumela Monastery',
+                    ar: 'دير سوميلا'
+                },
+                area: {
+                    tr: 'Maçka',
+                    en: 'Macka',
+                    ar: 'ماتشكا'
+                },
+                distanceValue: 50,
+                distanceLabel: '~50 km',
+                driveMinutes: 50,
+                description: {
+                    tr: 'Altındere Vadisi’nde sarp kayalıklara oyulmuş, Trabzon’un en ünlü tarihi ve kültürel simgesidir.',
+                    en: 'Carved into steep cliffs in Altindere Valley, this is Trabzon’s most iconic historic landmark.',
+                    ar: 'يقع في وادي ألتينديري وهو منحوت في الصخور الشاهقة ويعد أشهر معلم تاريخي وثقافي في طرابزون.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1623621534850-d325a1980c7e?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1623621534850-d325a1980c7e?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1589561253898-768105ca91a8?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=S%C3%BCmela+Manast%C4%B1r%C4%B1+Trabzon'
+            },
+            {
+                id: 'cal-magarasi',
+                category: 'visit',
+                title: {
+                    tr: 'Çal Mağarası',
+                    en: 'Cal Cave',
+                    ar: 'مغارة تشال'
+                },
+                area: {
+                    tr: 'Düzköy',
+                    en: 'Duzkoy',
+                    ar: 'دوزكوي'
+                },
+                distanceValue: 55,
+                distanceLabel: '~55 km',
+                driveMinutes: 60,
+                description: {
+                    tr: 'İçindeki yeraltı deresi, şelalesi ve ahşap yürüyüş yollarıyla dikkat çeken doğa harikası mağaradır.',
+                    en: 'A remarkable natural cave featuring an underground stream, waterfall, and wooden walkways.',
+                    ar: 'مغارة طبيعية مذهلة تضم نهراً جوفياً وشلالاً وممرات خشبية للمشي بداخلها.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1504386106331-3e4e71712b38?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1504386106331-3e4e71712b38?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=%C3%87al+Ma%C4%9Faras%C4%B1+Trabzon'
+            },
+            {
+                id: 'uzungol',
+                category: 'visit',
+                title: {
+                    tr: 'Uzungöl',
+                    en: 'Uzungol Lake',
+                    ar: 'بحيرة أوزنجول'
+                },
+                area: {
+                    tr: 'Çaykara',
+                    en: 'Caykara',
+                    ar: 'تشايكارا'
+                },
+                distanceValue: 85,
+                distanceLabel: '~85 km',
+                driveMinutes: 75,
+                description: {
+                    tr: 'Yemyeşil dağların ortasında yer alan göl manzarası ve yürüyüş yollarıyla doğaseverlerin favorisidir.',
+                    en: 'Surrounded by lush green mountains, this scenic lake offers peaceful walking paths and fresh air.',
+                    ar: 'بحيرة ساحرة تحيط بها الجبال الخضراء وتوفر مسارات للمشي وأجواء طبيعية هادئة.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Uzung%C3%B6l+Trabzon'
+            },
+
+            // ================= 2. RESTORANLAR (restaurants) - YAKINDAN UZAĞA =================
+            {
+                id: 'yomra-kasustu-sahil-restoranlari',
+                category: 'restaurants',
+                title: {
+                    tr: 'Yomra & Kaşüstü Sahil Restoranları',
+                    en: 'Yomra & Kasustu Seaside Restaurants',
+                    ar: 'مطاعم ساحل يومرا وكاش أوستو'
+                },
+                area: {
+                    tr: 'Kaşüstü',
+                    en: 'Kasustu',
+                    ar: 'كاش أوستو'
+                },
+                distanceValue: 0.5,
+                distanceLabel: '~0.5 km',
+                driveMinutes: 3,
+                description: {
+                    tr: 'Otele yürüme mesafesinde, deniz manzarası eşliğinde taze balık, kahvaltı ve ızgara çeşitleri sunar.',
+                    en: 'Within walking distance of the hotel, serving fresh Black Sea fish, breakfast, and grilled dishes.',
+                    ar: 'على مسافة قريبة سيراً من الفندق وتقدم أسماك البحر الأسود الطازجة والإفطار والمشويات.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Yomra+Sahil+Restoranlar%C4%B1+Trabzon'
+            },
+            {
+                id: 'kalkinma-pide-yoresel',
+                category: 'restaurants',
+                title: {
+                    tr: 'Kalkınma Pide & Yöresel Mekanlar',
+                    en: 'Kalkinma Pita & Local Eateries',
+                    ar: 'مطاعم الفطائر والمأكولات المحلية في كالكينما'
+                },
+                area: {
+                    tr: 'Kalkınma',
+                    en: 'Kalkinma',
+                    ar: 'كالكينما'
+                },
+                distanceValue: 8,
+                distanceLabel: '~8 km',
+                driveMinutes: 10,
+                description: {
+                    tr: 'Odun ateşinde pişen Trabzon yağlı pidesi, kuymak ve sıcak yöresel yemekler için en pratik duraktır.',
+                    en: 'A convenient dining district for wood-fired Trabzon butter pita, melted cheese kuymak, and local dishes.',
+                    ar: 'منطقة مطاعم مريحة لتذوق فطيرة طرابزون بالزبدة والكويماك والأطباق المحلية الساخنة.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Kalk%C4%B1nma+Trabzon+Pide+Restoranlar%C4%B1'
+            },
+            {
+                id: 'kalkanoglu-pilavcisi',
+                category: 'restaurants',
+                title: {
+                    tr: 'Tarihi Kalkanoğlu Pilavcısı & Merkez Lokantaları',
+                    en: 'Historic Kalkanoglu Pilaf & Center Dining',
+                    ar: 'مطعم كالكان أوغلو التاريخي ومطاعم المركز'
+                },
+                area: {
+                    tr: 'Meydan',
+                    en: 'Meydan',
+                    ar: 'الميدان'
+                },
+                distanceValue: 13,
+                distanceLabel: '~13 km',
+                driveMinutes: 16,
+                description: {
+                    tr: '1856’dan beri kemik suyu ve köy tereyağıyla hazırlanan meşhur pilavı ve kuru fasulyesiyle bilinir.',
+                    en: 'Serving traditional buttered rice and white beans cooked with bone broth since 1856 in the city center.',
+                    ar: 'يشتهر بتقديم الأرز بالزبدة الطبيعية والفاصوليا المطهوة على الطريقة التقليدية منذ عام 1856.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Kalkano%C4%9Flu+Pilavc%C4%B1s%C4%B1+Trabzon'
+            },
+            {
+                id: 'akcaabat-kofte-restoran',
+                category: 'restaurants',
+                title: {
+                    tr: 'Akçaabat Sahil Köftecileri',
+                    en: 'Akcaabat Seaside Meatball Restaurants',
+                    ar: 'مطاعم كفتة أكشبات على الساحل'
+                },
+                area: {
+                    tr: 'Akçaabat',
+                    en: 'Akcaabat',
+                    ar: 'أكشبات'
+                },
+                distanceValue: 26,
+                distanceLabel: '~26 km',
+                driveMinutes: 30,
+                description: {
+                    tr: 'Deniz kenarında meşhur sarımsaklı Akçaabat köftesi, piyaz ve kaymaklı ekmek kadayıfı yiyebileceğiniz duraktır.',
+                    en: 'Seaside restaurants famous for garlic-seasoned Akcaabat meatballs, bean salad, and local desserts.',
+                    ar: 'مطاعم على شاطئ البحر تشتهر بكفتة أكشبات المشوية والسلطات والحلويات التقليدية.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ak%C3%A7aabat+K%C3%B6fte+Restoranlar%C4%B1+Trabzon'
+            },
+            {
+                id: 'hamsikoy-sutlac',
+                category: 'restaurants',
+                title: {
+                    tr: 'Hamsiköy Sütlaç Durakları',
+                    en: 'Hamsikoy Baked Rice Pudding Stops',
+                    ar: 'مطاعم أرز بحليب هامسيكوي'
+                },
+                area: {
+                    tr: 'Hamsiköy',
+                    en: 'Hamsikoy',
+                    ar: 'هامسيكوي'
+                },
+                distanceValue: 48,
+                distanceLabel: '~48 km',
+                driveMinutes: 50,
+                description: {
+                    tr: 'Zigana yolu üzerinde, yayla sütüyle fırınlanan ve bol fındıkla servis edilen meşhur sütlacın adresidir.',
+                    en: 'Along the Zigana route, famous for oven-baked rice pudding made with mountain milk and roasted hazelnuts.',
+                    ar: 'على طريق زيغانا، تشتهر بالأرز بحليب المخبوز في الفرن والمقدم مع البندق المحمص الطازج.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Hamsik%C3%B6y+S%C3%BCtla%C3%A7+Trabzon'
+            },
+
+            // ================= 3. ALIŞVERİŞ (shopping) - YAKINDAN UZAĞA =================
+            {
+                id: 'cevahir-outlet-avm',
+                category: 'shopping',
+                title: {
+                    tr: 'Cevahir Outlet AVM',
+                    en: 'Cevahir Outlet Mall',
+                    ar: 'مول جواهر أوتلت'
+                },
+                area: {
+                    tr: 'Kaşüstü',
+                    en: 'Kasustu',
+                    ar: 'كاش أوستو'
+                },
+                distanceValue: 1,
+                distanceLabel: '~1 km',
+                driveMinutes: 3,
+                description: {
+                    tr: 'Mercure Trabzon’un hemen yanı başında yer alan, giyim mağazaları ve kafeleriyle en yakın alışveriş merkezidir.',
+                    en: 'Located right next to Mercure Trabzon, offering convenient fashion stores, cafes, and family dining.',
+                    ar: 'يقع بجوار فندق ميركيور طرابزون مباشرة ويضم متاجر الملابس والمقاهي والمطاعم.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1567449303078-57ad995bd329?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Trabzon+Cevahir+Outlet+AVM'
+            },
+            {
+                id: 'forum-trabzon-avm',
+                category: 'shopping',
+                title: {
+                    tr: 'Forum Trabzon AVM',
+                    en: 'Forum Trabzon Shopping Mall',
+                    ar: 'مول فورم طرابزون'
+                },
+                area: {
+                    tr: 'Kalkınma',
+                    en: 'Kalkinma',
+                    ar: 'كالكينما'
+                },
+                distanceValue: 8,
+                distanceLabel: '~8 km',
+                driveMinutes: 10,
+                description: {
+                    tr: 'Ulusal ve uluslararası markaları, açık hava terasları ve restoranlarıyla şehrin en büyük alışveriş merkezidir.',
+                    en: 'Trabzon’s largest shopping center featuring international brands, open-air terraces, and restaurants.',
+                    ar: 'أكبر مركز تسوق في طرابزون ويضم ماركات عالمية وتراسات مفتوحة ومطاعم متنوعة.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Forum+Trabzon+AVM'
+            },
+            {
+                id: 'meydan-uzun-sokak',
+                category: 'shopping',
+                title: {
+                    tr: 'Meydan Parkı & Uzun Sokak',
+                    en: 'Meydan Square & Uzun Street',
+                    ar: 'ميدان طرابزون والشارع الطويل'
+                },
+                area: {
+                    tr: 'Meydan',
+                    en: 'Meydan',
+                    ar: 'الميدان'
+                },
+                distanceValue: 12,
+                distanceLabel: '~12 km',
+                driveMinutes: 15,
+                description: {
+                    tr: 'Şehir merkezinde trafiğe kapalı alışveriş caddesi, mağazalar ve kafelerin bulunduğu en hareketli noktadır.',
+                    en: 'Trabzon’s lively pedestrian shopping avenue in the city center lined with shops, boutiques, and cafes.',
+                    ar: 'شارع التسوق الرئيسي للمشاة في وسط المدينة ويضم المتاجر والمقاهي الحيوية.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Uzun+Sokak+Meydan+Trabzon'
+            },
+            {
+                id: 'kemeralti-carsisi',
+                category: 'shopping',
+                title: {
+                    tr: 'Kemeraltı Tarihi Çarşısı',
+                    en: 'Kemeralti Historical Bazaar',
+                    ar: 'سوق كيميرالتي التاريخي'
+                },
+                area: {
+                    tr: 'Kemeraltı',
+                    en: 'Kemeralti',
+                    ar: 'كيميرالتي'
+                },
+                distanceValue: 13,
+                distanceLabel: '~13 km',
+                driveMinutes: 16,
+                description: {
+                    tr: 'Trabzon hasırı takılar, Sürmene bıçağı, fındık, çay ve yöresel ürünler alabileceğiniz tarihi çarşıdır.',
+                    en: 'Historic bazaar area ideal for buying Trabzon filigree jewelry, Surmene knives, hazelnuts, and Turkish tea.',
+                    ar: 'سوق تاريخي مثالي لشراء مشغولات طرابزون اليدوية وسكاكين سورمينا والبندق والشاي التركي.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1533900298318-6b8da08a523e?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1533900298318-6b8da08a523e?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Kemeralt%C4%B1+%C3%87ar%C5%9F%C4%B1s%C4%B1+Trabzon'
+            }
+        ];
+
+        /* =====================================================================
+           3 ANA KATEGORİ VE ARAYÜZ METİNLERİ (TR / EN / AR)
+           ===================================================================== */
+        const categoryTabsConfig = [
+            {
+                id: 'visit',
+                icon: 'compass',
+                label: {
+                    tr: 'Gezilecek Yerler',
+                    en: 'Places to Visit',
+                    ar: 'أماكن للزيارة'
+                }
+            },
+            {
+                id: 'restaurants',
+                icon: 'utensils',
+                label: {
+                    tr: 'Restoranlar',
+                    en: 'Restaurants',
+                    ar: 'المطاعم'
+                }
+            },
+            {
+                id: 'shopping',
+                icon: 'shopping-bag',
+                label: {
+                    tr: 'Alışveriş',
+                    en: 'Shopping',
+                    ar: 'التسوق'
+                }
+            }
+        ];
+
+        const uiLabels = {
+            tr: {
+                subtitle: 'Trabzon Şehir & Lezzet Rehberi',
+                sortOrder: 'Otele Yakından Uzağa',
+                mapsButton: 'Google Haritalar',
+                minSuffix: 'dk',
+                photosBadge: 'Fotoğraf',
+                footer: 'Mercure Trabzon Hotel • Yomra / Kaşüstü • İyi Tatiller Dileriz',
+                qrTitle: 'Rehberi Telefonda Aç',
+                qrDesc: 'Kameranızı okutarak dijital rehbere anında ulaşabilirsiniz.',
+                qrCopy: 'Bağlantıyı Kopyala',
+                toastCopied: 'Rehber bağlantısı kopyalandı!'
+            },
+            en: {
+                subtitle: 'Trabzon City & Dining Guide',
+                sortOrder: 'Closest to Farthest',
+                mapsButton: 'Google Maps',
+                minSuffix: 'min',
+                photosBadge: 'Photos',
+                footer: 'Mercure Trabzon Hotel • Yomra / Kasustu • Have a Pleasant Stay',
+                qrTitle: 'Open Guide on Phone',
+                qrDesc: 'Scan the QR code with your phone camera to open this guide.',
+                qrCopy: 'Copy Link',
+                toastCopied: 'Guide link copied!'
+            },
+            ar: {
+                subtitle: 'دليل طرابزون للسياحة والمطاعم والتسوق',
+                sortOrder: 'من الأقرب إلى الأبعد',
+                mapsButton: 'خرائط جوجل',
+                minSuffix: 'د',
+                photosBadge: 'صور',
+                footer: 'فندق ميركيور طرابزون • يومرا / كاش أوستو • نتمنى لكم إقامة سعيدة',
+                qrTitle: 'افتح الدليل على هاتفك',
+                qrDesc: 'امسح رمز الاستجابة السريعة بكاميرا الهاتف لفتح الدليل مباشرة.',
+                qrCopy: 'نسخ الرابط',
+                toastCopied: 'تم نسخ رابط الدليل!'
+            }
+        };
+
+        /* =====================================================================
+           UYGULAMA DURUMU VE ETKİLEŞİM MANTIĞI
+           ===================================================================== */
+        let currentLang = 'tr';
+        let activeCategory = 'visit';
+
+        let galleryImages = [];
+        let galleryIndex = 0;
+        let galleryItemTitle = '';
+        let touchStartX = 0;
+        let qrGenerated = false;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderUI();
+            setupGallerySwipeAndKeyboard();
+        });
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const htmlEl = document.documentElement;
+            htmlEl.setAttribute('lang', lang);
+            htmlEl.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+            ['tr', 'en', 'ar'].forEach(code => {
+                const btn = document.getElementById(`btn-lang-${code}`);
+                btn.className = code === lang
+                    ? 'px-2.5 py-1 rounded-full text-xs font-bold transition-all bg-amber-500 text-mercure-navy cursor-pointer'
+                    : 'px-2.5 py-1 rounded-full text-xs font-bold transition-all text-slate-300 hover:text-white cursor-pointer';
+            });
+
+            renderUI();
+        }
+
+        function selectCategory(categoryId) {
+            activeCategory = categoryId;
+            renderUI();
+        }
+
+        function renderUI() {
+            const labels = uiLabels[currentLang];
+
+            document.getElementById('header-subtitle').textContent = labels.subtitle;
+            document.getElementById('sort-order-text').textContent = labels.sortOrder;
+            document.getElementById('footer-note').textContent = labels.footer;
+            document.getElementById('qr-modal-title').textContent = labels.qrTitle;
+            document.getElementById('qr-modal-desc').textContent = labels.qrDesc;
+            document.getElementById('qr-copy-btn-text').textContent = labels.qrCopy;
+
+            renderCategoryTabs();
+            renderCards();
+        }
+
+        function renderCategoryTabs() {
+            const container = document.getElementById('category-tabs');
+            container.innerHTML = categoryTabsConfig.map(tab => {
+                const isActive = tab.id === activeCategory;
+                return `
+                    <button
+                        onclick="selectCategory('${tab.id}')"
+                        class="flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
+                            isActive
+                                ? 'bg-mercure-navy text-white shadow-sm'
+                                : 'bg-slate-100 text-slate-600 hover:bg-slate-200/80 hover:text-mercure-navy'
+                        }"
+                    >
+                        <i data-lucide="${tab.icon}" class="w-4 h-4 shrink-0 ${isActive ? 'text-amber-400' : 'text-slate-500'}"></i>
+                        <span class="truncate">${tab.label[currentLang]}</span>
+                    </button>
+                `;
+            }).join('');
+
+            const activeTabObj = categoryTabsConfig.find(t => t.id === activeCategory);
+            document.getElementById('active-category-heading').textContent = activeTabObj.label[currentLang];
+        }
+
+        function renderCards() {
+            const labels = uiLabels[currentLang];
+            const grid = document.getElementById('cards-grid');
+
+            // Seçili kategorideki mekanları otele uzaklığına göre (distanceValue) en yakından en uzağa sıralar
+            const sortedItems = guideItems
+                .filter(item => item.category === activeCategory)
+                .sort((a, b) => a.distanceValue - b.distanceValue);
+
+            document.getElementById('cards-count-badge').textContent = sortedItems.length;
+
+            grid.innerHTML = sortedItems.map((item, idx) => {
+                const photoCount = item.detailImages ? item.detailImages.length : 1;
+                const areaLabel = item.area ? item.area[currentLang] : '';
+                return `
+                    <article class="bg-white rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition-shadow overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <!-- 1. Ana Kapak Fotoğrafı (Tıklanınca Detay Galeri Açılır) -->
+                            <div
+                                onclick="openGalleryModal('${item.id}')"
+                                class="relative aspect-[16/10] w-full bg-slate-200 overflow-hidden cursor-pointer group"
+                            >
+                                <img
+                                    src="${item.coverImage}"
+                                    alt="${item.title[currentLang]}"
+                                    loading="lazy"
+                                    onerror="this.src='https://placehold.co/800x500/0F172A/F8FAFC?text=Mercure+Trabzon'"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                >
+                                <!-- Yakınlık Sıra Numarası -->
+                                <div class="absolute top-2.5 start-2.5 w-7 h-7 rounded-full bg-mercure-navy/85 text-amber-400 text-xs font-extrabold flex items-center justify-center border border-white/15 shadow-xs">
+                                    ${idx + 1}
+                                </div>
+                                <!-- Çoklu Fotoğraf Rozeti -->
+                                <div class="absolute bottom-2.5 end-2.5 px-2.5 py-1 rounded-full bg-mercure-navy/80 backdrop-blur-xs text-white text-[11px] font-bold flex items-center gap-1 border border-white/15">
+                                    <i data-lucide="images" class="w-3.5 h-3.5 text-amber-400"></i>
+                                    <span>${photoCount} ${labels.photosBadge}</span>
+                                </div>
+                            </div>
+
+                            <!-- 2. Başlık + 3. Tek Cümlelik Kısa Açıklama -->
+                            <div class="p-4 pb-3">
+                                <h3 class="text-base sm:text-lg font-extrabold text-mercure-navy leading-snug mb-1.5">
+                                    ${item.title[currentLang]}
+                                </h3>
+                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                    ${item.description[currentLang]}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 4. Kart Alt Satırı: Sol Altta Bölge + KM + DK | Sağ Altta Google Haritalar -->
+                        <div class="px-4 py-3 border-t border-slate-100 bg-slate-50/70 flex items-center justify-between gap-2">
+                            <div class="flex flex-wrap items-center gap-1 text-[11px] font-bold text-slate-700 min-w-0">
+                                <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-white border border-slate-200 text-mercure-navy truncate max-w-[110px]">
+                                    <i data-lucide="navigation" class="w-3 h-3 text-amber-600 shrink-0"></i>
+                                    <span class="truncate">${areaLabel}</span>
+                                </span>
+                                <span dir="ltr" class="inline-flex items-center px-2 py-1 rounded-lg bg-amber-50 border border-amber-200/80 text-amber-900 whitespace-nowrap">
+                                    ${item.distanceLabel}
+                                </span>
+                                <span dir="ltr" class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-200/70 text-slate-800 whitespace-nowrap">
+                                    <i data-lucide="car" class="w-3 h-3 text-slate-600 shrink-0"></i>
+                                    <span>~${item.driveMinutes} ${labels.minSuffix}</span>
+                                </span>
+                            </div>
+
+                            <a
+                                href="${item.mapsUrl}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="${labels.mapsButton}"
+                                class="shrink-0 py-2 px-3 rounded-xl bg-mercure-navy hover:bg-amber-600 text-white text-xs font-bold inline-flex items-center gap-1.5 transition-colors shadow-2xs"
+                            >
+                                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-400"></i>
+                                <span>Maps</span>
+                            </a>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        /* =====================================================================
+           DETAY FOTOĞRAF GALERİSİ (LIGHTBOX) FONKSİYONLARI
+           ===================================================================== */
+        function openGalleryModal(itemId) {
+            const item = guideItems.find(i => i.id === itemId);
+            if (!item) return;
+
+            galleryImages = (item.detailImages && item.detailImages.length > 0)
+                ? item.detailImages
+                : [item.coverImage];
+            galleryIndex = 0;
+            galleryItemTitle = item.title[currentLang];
+
+            document.getElementById('gallery-title').textContent = galleryItemTitle;
+            updateGalleryView();
+            document.getElementById('gallery-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeGalleryModal() {
+            document.getElementById('gallery-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function prevGalleryPhoto() {
+            if (!galleryImages.length) return;
+            galleryIndex = (galleryIndex - 1 + galleryImages.length) % galleryImages.length;
+            updateGalleryView();
+        }
+
+        function nextGalleryPhoto() {
+            if (!galleryImages.length) return;
+            galleryIndex = (galleryIndex + 1) % galleryImages.length;
+            updateGalleryView();
+        }
+
+        function goToGalleryPhoto(idx) {
+            galleryIndex = idx;
+            updateGalleryView();
+        }
+
+        function updateGalleryView() {
+            const imgEl = document.getElementById('gallery-main-img');
+            imgEl.src = galleryImages[galleryIndex];
+            imgEl.alt = galleryItemTitle;
+
+            document.getElementById('gallery-counter').textContent = `${galleryIndex + 1} / ${galleryImages.length}`;
+
+            const thumbsContainer = document.getElementById('gallery-thumbnails');
+            thumbsContainer.innerHTML = galleryImages.map((src, idx) => `
+                <button
+                    onclick="goToGalleryPhoto(${idx})"
+                    class="w-14 h-10 rounded-lg overflow-hidden border-2 transition-all shrink-0 cursor-pointer ${
+                        idx === galleryIndex ? 'border-amber-400 scale-105 opacity-100' : 'border-transparent opacity-50 hover:opacity-80'
+                    }"
+                >
+                    <img src="${src}" alt="" class="w-full h-full object-cover">
+                </button>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        function setupGallerySwipeAndKeyboard() {
+            const touchArea = document.getElementById('gallery-touch-area');
+            touchArea.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            touchArea.addEventListener('touchend', (e) => {
+                const diffX = e.changedTouches[0].screenX - touchStartX;
+                if (Math.abs(diffX) > 40) {
+                    if (diffX < 0) nextGalleryPhoto();
+                    else prevGalleryPhoto();
+                }
+            }, { passive: true });
+
+            document.addEventListener('keydown', (e) => {
+                const galleryOpen = !document.getElementById('gallery-modal').classList.contains('hidden');
+                if (!galleryOpen) return;
+                if (e.key === 'Escape') closeGalleryModal();
+                if (e.key === 'ArrowRight') nextGalleryPhoto();
+                if (e.key === 'ArrowLeft') prevGalleryPhoto();
+            });
+        }
+
+        /* =====================================================================
+           QR KOD MODALI FONKSİYONLARI
+           ===================================================================== */
+        function openQrModal() {
+            const modal = document.getElementById('qr-modal');
+            const currentUrl = window.location.href;
+            document.getElementById('qr-url-display').textContent = currentUrl;
+
+            const qrContainer = document.getElementById('qrcode-container');
+            if (!qrGenerated) {
+                qrContainer.innerHTML = '';
+                new QRCode(qrContainer, {
+                    text: currentUrl,
+                    width: 190,
+                    height: 190,
+                    colorDark: '#0F172A',
+                    colorLight: '#FFFFFF',
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+                qrGenerated = true;
+            }
+
+            modal.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeQrModal() {
+            document.getElementById('qr-modal').classList.add('hidden');
+        }
+
+        function copyCurrentPageUrl() {
+            const url = window.location.href;
+            const textarea = document.createElement('textarea');
+            textarea.value = url;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast(uiLabels[currentLang].toastCopied);
+            } catch (err) {
+                console.error('Copy failed:', err);
+            }
+            document.body.removeChild(textarea);
+        }
+
+        let toastTimeout;
+        function showToast(message) {
+            const box = document.getElementById('toast-box');
+            document.getElementById('toast-text').textContent = message;
+            box.classList.remove('translate-y-6', 'opacity-0');
+            box.classList.add('translate-y-0', 'opacity-100');
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                box.classList.add('translate-y-6', 'opacity-0');
+                box.classList.remove('translate-y-0', 'opacity-100');
+            }, 2200);
+        }
+    </script>
+</body>
+</html>
