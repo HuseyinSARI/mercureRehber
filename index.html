@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr" dir="ltr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,9 @@
     <!-- Fonts: Plus Jakarta Sans & Noto Sans Arabic -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -47,16 +50,20 @@
             color: #0F172A;
             -webkit-tap-highlight-color: transparent;
         }
+
         html[dir="rtl"] body {
             font-family: 'Noto Sans Arabic', 'Plus Jakarta Sans', sans-serif;
         }
+
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
+
         .no-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
         #qrcode-container img,
         #qrcode-container canvas {
             margin: 0 auto;
@@ -64,6 +71,7 @@
         }
     </style>
 </head>
+
 <body class="min-h-screen flex flex-col antialiased selection:bg-amber-500/20 selection:text-mercure-navy">
 
     <!-- =======================================================================
@@ -73,28 +81,32 @@
         <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
             <!-- Otel Logosu ve Başlık -->
             <div class="flex items-center gap-2.5 min-w-0">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shrink-0 border border-amber-300/30 shadow-inner">
+                <div
+                    class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center shrink-0 border border-amber-300/30 shadow-inner">
                     <span class="font-extrabold text-white text-base">M</span>
                 </div>
                 <div class="min-w-0">
-                    <h1 class="font-extrabold tracking-wider text-xs sm:text-sm text-white truncate">MERCURE TRABZON</h1>
-                    <p id="header-subtitle" class="text-[11px] text-slate-300 truncate">Trabzon Şehir &amp; Lezzet Rehberi</p>
+                    <h1 class="font-extrabold tracking-wider text-xs sm:text-sm text-white truncate">MERCURE TRABZON
+                    </h1>
+                    <p id="header-subtitle" class="text-[11px] text-slate-300 truncate">Trabzon Şehir &amp; Lezzet
+                        Rehberi</p>
                 </div>
             </div>
 
             <!-- Sağ Kontroller: TR | EN | AR + QR Kod Butonu -->
             <div class="flex items-center gap-2 shrink-0">
-                <div class="inline-flex items-center bg-mercure-navySoft p-1 rounded-full border border-white/10" role="group" aria-label="Language Switcher">
-                    <button onclick="setLanguage('tr')" id="btn-lang-tr" class="px-2.5 py-1 rounded-full text-xs font-bold transition-all bg-amber-500 text-mercure-navy cursor-pointer">TR</button>
-                    <button onclick="setLanguage('en')" id="btn-lang-en" class="px-2.5 py-1 rounded-full text-xs font-bold transition-all text-slate-300 hover:text-white cursor-pointer">EN</button>
-                    <button onclick="setLanguage('ar')" id="btn-lang-ar" class="px-2.5 py-1 rounded-full text-xs font-bold transition-all text-slate-300 hover:text-white cursor-pointer">AR</button>
+                <div class="inline-flex items-center bg-mercure-navySoft p-1 rounded-full border border-white/10"
+                    role="group" aria-label="Language Switcher">
+                    <button onclick="setLanguage('tr')" id="btn-lang-tr"
+                        class="px-2.5 py-1 rounded-full text-xs font-bold transition-all bg-amber-500 text-mercure-navy cursor-pointer">TR</button>
+                    <button onclick="setLanguage('en')" id="btn-lang-en"
+                        class="px-2.5 py-1 rounded-full text-xs font-bold transition-all text-slate-300 hover:text-white cursor-pointer">EN</button>
+                    <button onclick="setLanguage('ar')" id="btn-lang-ar"
+                        class="px-2.5 py-1 rounded-full text-xs font-bold transition-all text-slate-300 hover:text-white cursor-pointer">AR</button>
                 </div>
 
-                <button
-                    onclick="openQrModal()"
-                    aria-label="QR Code"
-                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-amber-300 border border-amber-400/30 text-xs font-bold transition-colors cursor-pointer"
-                >
+                <button onclick="openQrModal()" aria-label="QR Code"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-amber-300 border border-amber-400/30 text-xs font-bold transition-colors cursor-pointer">
                     <i data-lucide="qr-code" class="w-4 h-4"></i>
                     <span class="hidden sm:inline">QR</span>
                 </button>
@@ -120,13 +132,16 @@
         <!-- Kategori Başlığı, Yakından Uzağa Etiketi ve Kart Sayısı -->
         <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
             <div class="flex items-center gap-2">
-                <h2 id="active-category-heading" class="text-base sm:text-lg font-extrabold text-mercure-navy">Gezilecek Yerler</h2>
-                <span id="sort-order-badge" class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-200">
+                <h2 id="active-category-heading" class="text-base sm:text-lg font-extrabold text-mercure-navy">Gezilecek
+                    Yerler</h2>
+                <span id="sort-order-badge"
+                    class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-200">
                     <i data-lucide="arrow-up-narrow-wide" class="w-3 h-3"></i>
                     <span id="sort-order-text">Otele Yakından Uzağa</span>
                 </span>
             </div>
-            <span id="cards-count-badge" class="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-200/80 text-slate-700">0</span>
+            <span id="cards-count-badge"
+                class="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-200/80 text-slate-700">0</span>
         </div>
 
         <!-- Kart Izgarası -->
@@ -143,48 +158,38 @@
     <!-- =======================================================================
          DETAY FOTOĞRAF GALERİSİ (LIGHTBOX MODAL)
          ======================================================================= -->
-    <div id="gallery-modal" class="fixed inset-0 z-50 hidden bg-slate-950/95 backdrop-blur-sm flex flex-col justify-between p-4 select-none">
+    <div id="gallery-modal"
+        class="fixed inset-0 z-50 hidden bg-slate-950/95 backdrop-blur-sm flex flex-col justify-between p-4 select-none">
         <div class="max-w-4xl w-full mx-auto flex items-center justify-between text-white py-2">
             <div class="min-w-0 pe-3">
                 <h3 id="gallery-title" class="font-bold text-sm sm:text-base truncate">Başlık</h3>
                 <p id="gallery-counter" class="text-xs text-amber-400 font-semibold">1 / 3</p>
             </div>
-            <button
-                onclick="closeGalleryModal()"
-                aria-label="Kapat"
-                class="w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center shrink-0 transition-colors cursor-pointer"
-            >
+            <button onclick="closeGalleryModal()" aria-label="Kapat"
+                class="w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center shrink-0 transition-colors cursor-pointer">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
         </div>
 
-        <div id="gallery-touch-area" class="relative flex-1 max-w-4xl w-full mx-auto flex items-center justify-center my-2 overflow-hidden">
-            <button
-                onclick="prevGalleryPhoto()"
-                aria-label="Önceki Fotoğraf"
-                class="absolute start-2 z-10 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/55 hover:bg-black/80 text-white border border-white/20 flex items-center justify-center transition-colors cursor-pointer"
-            >
+        <div id="gallery-touch-area"
+            class="relative flex-1 max-w-4xl w-full mx-auto flex items-center justify-center my-2 overflow-hidden">
+            <button onclick="prevGalleryPhoto()" aria-label="Önceki Fotoğraf"
+                class="absolute start-2 z-10 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/55 hover:bg-black/80 text-white border border-white/20 flex items-center justify-center transition-colors cursor-pointer">
                 <i data-lucide="chevron-left" class="w-6 h-6 rtl:rotate-180"></i>
             </button>
 
-            <img
-                id="gallery-main-img"
-                src=""
-                alt=""
+            <img id="gallery-main-img" src="" alt=""
                 onerror="this.src='https://placehold.co/900x600/1E293B/F8FAFC?text=Mercure+Trabzon'"
-                class="max-h-[68vh] w-auto max-w-full object-contain rounded-2xl shadow-2xl transition-opacity duration-200"
-            >
+                class="max-h-[68vh] w-auto max-w-full object-contain rounded-2xl shadow-2xl transition-opacity duration-200">
 
-            <button
-                onclick="nextGalleryPhoto()"
-                aria-label="Sonraki Fotoğraf"
-                class="absolute end-2 z-10 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/55 hover:bg-black/80 text-white border border-white/20 flex items-center justify-center transition-colors cursor-pointer"
-            >
+            <button onclick="nextGalleryPhoto()" aria-label="Sonraki Fotoğraf"
+                class="absolute end-2 z-10 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/55 hover:bg-black/80 text-white border border-white/20 flex items-center justify-center transition-colors cursor-pointer">
                 <i data-lucide="chevron-right" class="w-6 h-6 rtl:rotate-180"></i>
             </button>
         </div>
 
-        <div id="gallery-thumbnails" class="max-w-4xl w-full mx-auto flex items-center justify-center gap-2 py-2 overflow-x-auto no-scrollbar">
+        <div id="gallery-thumbnails"
+            class="max-w-4xl w-full mx-auto flex items-center justify-center gap-2 py-2 overflow-x-auto no-scrollbar">
             <!-- JS ile küçük önizlemeler eklenir -->
         </div>
     </div>
@@ -194,19 +199,20 @@
          ======================================================================= -->
     <div id="qr-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
         <div onclick="closeQrModal()" class="absolute inset-0 bg-mercure-navy/70 backdrop-blur-xs"></div>
-        <div class="relative bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 text-center space-y-4">
-            <button
-                onclick="closeQrModal()"
-                aria-label="Kapat"
-                class="absolute top-4 end-4 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center cursor-pointer"
-            >
+        <div
+            class="relative bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 text-center space-y-4">
+            <button onclick="closeQrModal()" aria-label="Kapat"
+                class="absolute top-4 end-4 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center cursor-pointer">
                 <i data-lucide="x" class="w-4 h-4"></i>
             </button>
 
             <div class="space-y-1 pt-1">
-                <span class="inline-block text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full bg-amber-100 text-amber-800">MERCURE TRABZON</span>
+                <span
+                    class="inline-block text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-full bg-amber-100 text-amber-800">MERCURE
+                    TRABZON</span>
                 <h3 id="qr-modal-title" class="text-lg font-extrabold text-mercure-navy">Rehberi Telefonda Aç</h3>
-                <p id="qr-modal-desc" class="text-xs text-slate-500">Kameranızı okutarak dijital rehbere anında ulaşabilirsiniz.</p>
+                <p id="qr-modal-desc" class="text-xs text-slate-500">Kameranızı okutarak dijital rehbere anında
+                    ulaşabilirsiniz.</p>
             </div>
 
             <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 inline-block mx-auto">
@@ -215,10 +221,8 @@
 
             <div class="space-y-2">
                 <p id="qr-url-display" dir="ltr" class="text-[11px] text-slate-400 truncate px-2"></p>
-                <button
-                    onclick="copyCurrentPageUrl()"
-                    class="w-full py-2.5 px-4 rounded-xl bg-mercure-navy hover:bg-mercure-navySoft text-white text-xs font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer"
-                >
+                <button onclick="copyCurrentPageUrl()"
+                    class="w-full py-2.5 px-4 rounded-xl bg-mercure-navy hover:bg-mercure-navySoft text-white text-xs font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer">
                     <i data-lucide="copy" class="w-3.5 h-3.5 text-amber-400"></i>
                     <span id="qr-copy-btn-text">Bağlantıyı Kopyala</span>
                 </button>
@@ -227,8 +231,10 @@
     </div>
 
     <!-- Bildirim Kutusu (Toast) -->
-    <div id="toast-box" class="fixed bottom-5 inset-x-4 sm:inset-x-auto sm:end-5 z-50 pointer-events-none transition-all duration-300 translate-y-6 opacity-0">
-        <div class="bg-mercure-navy text-white px-4 py-3 rounded-xl shadow-xl border border-amber-500/40 flex items-center gap-2 text-xs font-bold max-w-xs mx-auto sm:mx-0">
+    <div id="toast-box"
+        class="fixed bottom-5 inset-x-4 sm:inset-x-auto sm:end-5 z-50 pointer-events-none transition-all duration-300 translate-y-6 opacity-0">
+        <div
+            class="bg-mercure-navy text-white px-4 py-3 rounded-xl shadow-xl border border-amber-500/40 flex items-center gap-2 text-xs font-bold max-w-xs mx-auto sm:mx-0">
             <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400 shrink-0"></i>
             <span id="toast-text">Kopyalandı</span>
         </div>
@@ -244,117 +250,174 @@
            ===================================================================== */
         const guideItems = [
             // ================= 1. GEZİLECEK YERLER (visit) - YAKINDAN UZAĞA =================
+            
             {
-                id: 'kasustu-sahil',
+                id: 'yalincak-sahil',
                 category: 'visit',
                 title: {
-                    tr: 'Kaşüstü Sahil Yürüyüş Yolu',
-                    en: 'Kasustu Coastal Walk',
-                    ar: 'ممشى ساحل كاش أوستو'
+                    tr: 'Yalıncak Sahil',
+                    en: 'Yalincak Beach & Coast',
+                    ar: 'ساحل يالينجاك'
                 },
                 area: {
-                    tr: 'Kaşüstü',
-                    en: 'Kasustu',
-                    ar: 'كاش أوستو'
+                    tr: 'Yalıncak',
+                    en: 'Yalincak',
+                    ar: 'يالينجاك'
                 },
-                distanceValue: 0.1,
-                distanceLabel: '0.1 km',
-                driveMinutes: 2,
+                distanceValue: 2.5,
+                distanceLabel: '~2.5 km',
+                driveMinutes: 5,
                 description: {
-                    tr: 'Otelin hemen önünden başlayan, Karadeniz kıyısında yürüyüş ve dinlenme imkânı sunan sahil parkıdır.',
-                    en: 'Located right in front of the hotel, offering a relaxing seaside promenade along the Black Sea coast.',
-                    ar: 'يقع أمام الفندق مباشرة ويوفر مساراً للمشي والاسترخاء على ساحل البحر الأسود.'
+                    tr: 'Otele çok yakın konumda, Karadeniz kıyısında sahil ve dinlenme imkânı sunan kıyı noktasıdır.',
+                    en: 'Located right near the hotel along the Black Sea coast, offering a convenient seaside spot.',
+                    ar: 'يقع بالقرب من الفندق على ساحل البحر الأسود ويوفر أجواءً بحرية مريحة.'
                 },
-                coverImage: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80',
+                coverImage: 'img/yalincak.jpeg',
                 detailImages: [
-                    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=85',
-                    'https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=85'
+                    'img/yalincak.jpeg',
+                    'img/yalincak2.jpg',
+                    'img/yalincak3.jpg'
                 ],
-                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ka%C5%9F%C3%BCst%C3%BC+Sahil+Park%C4%B1+Trabzon'
+                mapsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJFUCd5v06ZEAR23Oj0H9J6-Q'
             },
             {
-                id: 'ortahisar-kaleici',
+                id: 'meydan-parki',
                 category: 'visit',
                 title: {
-                    tr: 'Ortahisar (Kaleiçi) & Tarihi Sokaklar',
-                    en: 'Ortahisar Old Town & Historic Streets',
-                    ar: 'أورتاهيسار (المدينة القديمة)'
+                    tr: 'Meydan Parkı',
+                    en: 'Meydan Park',
+                    ar: 'حديقة الميدان'
+                },
+                area: {
+                    tr: 'İskenderpaşa',
+                    en: 'Iskenderpasa',
+                    ar: 'إسكندر باشا'
+                },
+                distanceValue: 12.7,
+                distanceLabel: '~12.7 km',
+                driveMinutes: 15,
+                description: {
+                    tr: 'Trabzon şehir merkezinin kalbinde yer alan, oturma alanları ve hareketli atmosferiyle bilinen meydandır.',
+                    en: 'Located at the heart of Trabzon city center, known for its lively atmosphere and central gathering space.',
+                    ar: 'تقع في قلب وسط مدينة طرابزون وتُعرف بأجوائها الحيوية وموقعها المركزي.'
+                },
+                coverImage: 'img/meydan.jpg',
+                detailImages: [
+                    'img/meydan.jpg',
+                    'img/meydan2.jpg',
+                    'img/meydan3.jpg',
+                ],
+                mapsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJwxPUZ0Q8ZEARSLp3wprj2OA'
+            },
+            {
+                id: 'ganita-sahil',
+                category: 'visit',
+                title: {
+                    tr: 'Ganita Sahil',
+                    en: 'Ganita Coast',
+                    ar: 'ساحل غانيتا'
+                },
+                area: {
+                    tr: 'İskenderpaşa',
+                    en: 'Iskenderpasa',
+                    ar: 'إسكندر باشا'
+                },
+                distanceValue: 13.5,
+                distanceLabel: '~13.5 km',
+                driveMinutes: 12,
+                description: {
+                    tr: 'Karadeniz kıyı hattında yürüyüş yapabileceğiniz ve deniz manzarası eşliğinde vakit geçirebileceğiniz sahil noktasıdır.',
+                    en: 'A popular Black Sea coastal spot for seaside walks and enjoying sea views near the city center.',
+                    ar: 'وجهة ساحلية شهيرة على البحر الأسود للمشي والاستمتاع بإطلالة البحر قرب وسط المدينة.'
+                },
+                coverImage: 'img/ganita.jpg',
+                detailImages: [
+                'img/ganita.jpg',
+                'img/ganita2.jpg',
+                'img/ganita3.jpg',
+                ],
+                mapsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJGzgdKxs9ZEAR8B_ESBZ2B9o'
+            },
+            {
+                id: 'uzun-sokak',
+                category: 'visit',
+                title: {
+                    tr: 'Uzun Sokak',
+                    en: 'Uzun Sokak',
+                    ar: 'الشارع الطويل'
                 },
                 area: {
                     tr: 'Ortahisar',
                     en: 'Ortahisar',
                     ar: 'أورتاهيسار'
                 },
-                distanceValue: 13,
-                distanceLabel: '~13 km',
-                driveMinutes: 16,
+                distanceValue: 13.6,
+                distanceLabel: '~13.6 km',
+                driveMinutes: 24,
                 description: {
-                    tr: 'Tarihi surlar, Osmanlı konakları ve Gülbahar Hatun Camii ile şehrin eski dokusunu yaşatan bölgedir.',
-                    en: 'Preserves Trabzon’s historic fabric with ancient city walls, Ottoman mansions, and traditional streets.',
-                    ar: 'يحتفظ بالنسيج التاريخي للمدينة بأسواره القديمة وقصوره العثمانية وشوارعه التراثية.'
+                    tr: 'Şehir merkezinde mağazalar, kafeler ve günlük şehir yaşamıyla öne çıkan hareketli caddedir.',
+                    en: 'A lively central street lined with shops, cafes, and everyday city life in Ortahisar.',
+                    ar: 'شارع حيوي في وسط المدينة يضم المتاجر والمقاهي وحركة المدينة اليومية.'
                 },
-                coverImage: 'https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=900&q=80',
+                coverImage: 'https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&w=900&q=80',
                 detailImages: [
-                    'https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=1200&q=85',
                     'https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&w=1200&q=85'
                 ],
-                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Ortahisar+Tarihi+Evleri+Trabzon'
+                mapsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJe6rNxEU8ZEARxtgKZZpaRGY'
             },
             {
-                id: 'boztepe',
+                id: 'boztepe-yuruyus-yolu',
                 category: 'visit',
                 title: {
-                    tr: 'Boztepe (Şehir Manzarası)',
-                    en: 'Boztepe Panoramic Viewpoint',
-                    ar: 'بوزتيبي (إطلالة بانورامية)'
+                    tr: 'Boztepe Yürüyüş Yolu',
+                    en: 'Boztepe Walk & Viewpoint',
+                    ar: 'ممشى وإطلالة بوزتيبي'
                 },
                 area: {
                     tr: 'Boztepe',
                     en: 'Boztepe',
                     ar: 'بوزتيبي'
                 },
-                distanceValue: 14,
-                distanceLabel: '~14 km',
-                driveMinutes: 20,
+                distanceValue: 6.0,
+                distanceLabel: '~6.0 km',
+                driveMinutes: 18,
                 description: {
-                    tr: 'Trabzon şehrini ve Karadeniz’i kuş bakışı izleyerek semaverde çay içebileceğiniz en keyifli tepedir.',
-                    en: 'The best hilltop spot to enjoy traditional Turkish tea with a panoramic view of Trabzon and the Black Sea.',
-                    ar: 'أجمل تلة للاستمتاع بالشاي التركي مع إطلالة بانورامية على مدينة طرابزون والبحر الأسود.'
+                    tr: 'Trabzon şehrini ve sahil hattını yüksekten görebileceğiniz manzaralı tepe ve yürüyüş rotasıdır.',
+                    en: 'An elevated hillside viewpoint offering sweeping views over Trabzon and the coastline.',
+                    ar: 'مرتفع مطل يمنح إطلالة واسعة على مدينة طرابزون والساحل.'
                 },
                 coverImage: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=900&q=80',
                 detailImages: [
-                    'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=85',
-                    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=85'
+                    'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=85'
                 ],
-                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Boztepe+Seyir+Teras%C4%B1+Trabzon'
+                mapsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJHxuLHxQ8ZEARmEaSP9UmItM'
             },
             {
-                id: 'ayasofya-camii',
+                id: 'trabzon-botanik-bahce',
                 category: 'visit',
                 title: {
-                    tr: 'Ayasofya Camii (Müzesi)',
-                    en: 'Hagia Sophia Mosque & Museum',
-                    ar: 'مسجد ومتحف آيا صوفيا'
+                    tr: 'Botanik Bahçe',
+                    en: 'Trabzon Botanical Garden',
+                    ar: 'الحديقة النباتية في طرابزون'
                 },
                 area: {
-                    tr: 'Fatih',
-                    en: 'Fatih',
-                    ar: 'فاتح'
+                    tr: 'Çamoba',
+                    en: 'Camoba',
+                    ar: 'تشاموبا'
                 },
-                distanceValue: 16,
-                distanceLabel: '~16 km',
-                driveMinutes: 20,
+                distanceValue: 7.3,
+                distanceLabel: '~7.3 km',
+                driveMinutes: 18,
                 description: {
-                    tr: '13. yüzyıldan kalma taş işçiliği, freskleri ve deniz manzaralı bahçesiyle öne çıkan tarihi yapıdır.',
-                    en: 'A 13th-century architectural gem renowned for its stone carvings, frescoes, and sea-view garden.',
-                    ar: 'تحفة معمارية تعود للقرن الثالث عشر تشتهر بنقوشها الحجرية وحديقتها المطلة على البحر.'
+                    tr: 'Bitki çeşitliliği ve yürüyüş alanlarıyla şehir içinde doğa molası verebileceğiniz yeşil alandır.',
+                    en: 'A green space with diverse plant collections and walking paths for a calm break near the city.',
+                    ar: 'مساحة خضراء تضم تنوعاً نباتياً ومسارات للمشي لقضاء وقت هادئ قرب المدينة.'
                 },
-                coverImage: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=900&q=80',
+                coverImage: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=900&q=80',
                 detailImages: [
-                    'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1200&q=85',
-                    'https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=1200&q=85'
+                    'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=85'
                 ],
-                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Trabzon+Ayasofya+Camii'
+                mapsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJv-dr5_c_ZEARZoPVOwNjQHQ'
             },
             {
                 id: 'ataturk-kosku',
@@ -369,48 +432,100 @@
                     en: 'Soguksu',
                     ar: 'صوغوكسو'
                 },
-                distanceValue: 18,
-                distanceLabel: '~18 km',
-                driveMinutes: 25,
+                distanceValue: 8.2,
+                distanceLabel: '~8.2 km',
+                driveMinutes: 20,
                 description: {
-                    tr: 'Çam ormanları içindeki zarif mimarisi ve bakımlı çiçek bahçesiyle şehrin en güzel tarihi köşküdür.',
-                    en: 'Set among pine forests, this historic mansion stands out with its elegant architecture and flower gardens.',
-                    ar: 'يقع وسط غابات الصنوبر ويتميز بهندسته المعمارية الأنيقة وحدائقه المزهرة الجميلة.'
+                    tr: 'Yeşil çevresi, bahçesi ve tarihi mimarisiyle öne çıkan önemli kültürel duraklardan biridir.',
+                    en: 'A notable historic pavilion surrounded by greenery and gardens in the Soguksu area.',
+                    ar: 'قصر تاريخي بارز تحيط به المساحات الخضراء والحدائق في منطقة صوغوكسو.'
                 },
                 coverImage: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=900&q=80',
                 detailImages: [
-                    'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1200&q=85',
-                    'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=85'
+                    'https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1200&q=85'
                 ],
-                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Atat%C3%BCrk+K%C3%B6%C5%9Fk%C3%BC+Trabzon'
+                mapsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJ11rFGH8-ZEAR0nL4tPeMcHA'
+            },
+            {
+                id: 'trabzon-ayasofya',
+                category: 'visit',
+                title: {
+                    tr: 'Trabzon Ayasofya',
+                    en: 'Trabzon Hagia Sophia',
+                    ar: 'آيا صوفيا طرابزون'
+                },
+                area: {
+                    tr: 'Fatih',
+                    en: 'Fatih',
+                    ar: 'فاتح'
+                },
+                distanceValue: 8.8,
+                distanceLabel: '~8.8 km',
+                driveMinutes: 20,
+                description: {
+                    tr: 'Tarihi taş mimarisi, freskleri ve bahçesiyle Trabzon’un öne çıkan tarihi yapılarındandır.',
+                    en: 'One of Trabzon’s prominent historic landmarks, known for its architecture, frescoes, and garden.',
+                    ar: 'من أبرز المعالم التاريخية في طرابزون وتتميز بعمارتها ونقوشها وحديقتها.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJ2XaESHI9ZEARjE3-h4ZvRR0'
             },
             {
                 id: 'sera-golu',
                 category: 'visit',
                 title: {
-                    tr: 'Sera Gölü Tabiat Parkı',
-                    en: 'Sera Lake Nature Park',
-                    ar: 'بحيرة سيرا الطبيعية'
+                    tr: 'Sera Gölü',
+                    en: 'Sera Lake',
+                    ar: 'بحيرة سيرا'
                 },
                 area: {
                     tr: 'Akçaabat',
                     en: 'Akcaabat',
                     ar: 'أكشبات'
                 },
-                distanceValue: 25,
-                distanceLabel: '~25 km',
-                driveMinutes: 30,
+                distanceValue: 15.2,
+                distanceLabel: '~15.2 km',
+                driveMinutes: 28,
                 description: {
-                    tr: 'Şehre yakın mesafede göl kenarında yürüyüş, deniz bisikleti ve doğa molası için ideal bir tabiat parkıdır.',
-                    en: 'Close to the city, ideal for lakeside walks, pedal boating, and relaxing in lush green nature.',
-                    ar: 'قريبة من المدينة ومثالية للمشي بجانب البحيرة وركوب القوارب والاسترخاء في الطبيعة.'
+                    tr: 'Yeşil tepelerle çevrili göl atmosferi sunan, kısa doğa kaçamakları için tercih edilen noktadır.',
+                    en: 'A scenic lake surrounded by green hills, popular for short nature outings near Akcaabat.',
+                    ar: 'بحيرة جميلة تحيط بها التلال الخضراء وتُعد خياراً مناسباً لنزهة طبيعية قصيرة.'
                 },
                 coverImage: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80',
                 detailImages: [
-                    'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJkWpDUc0_ZEARg4gwAQoYR3I'
+            },
+            {
+                id: 'hidirnebi-yaylasi',
+                category: 'visit',
+                title: {
+                    tr: 'Hıdırnebi Yaylası',
+                    en: 'Hidirnebi Plateau',
+                    ar: 'مرتفعات هيديرنبي'
+                },
+                area: {
+                    tr: 'Akçaabat',
+                    en: 'Akcaabat',
+                    ar: 'أكشبات'
+                },
+                distanceValue: 30.6,
+                distanceLabel: '~30.6 km',
+                driveMinutes: 55,
+                description: {
+                    tr: 'Yüksek rakımı, yayla havası ve çevre mekanlarıyla öne çıkan popüler yayla rotalarındandır.',
+                    en: 'A popular highland plateau known for fresh mountain air, open views, and local eateries.',
+                    ar: 'من أشهر الهضاب المرتفعة وتتميز بهوائها الجبلي وإطلالاتها ومطاعمها المحلية.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
                     'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=85'
                 ],
-                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Sera+G%C3%B6l%C3%BC+Trabzon'
+                mapsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJdwn5pOprZEARZr5lkdpkZ8M'
             },
             {
                 id: 'sumela-manastiri',
@@ -425,20 +540,19 @@
                     en: 'Macka',
                     ar: 'ماتشكا'
                 },
-                distanceValue: 50,
-                distanceLabel: '~50 km',
-                driveMinutes: 50,
+                distanceValue: 34.0,
+                distanceLabel: '~34 km',
+                driveMinutes: 55,
                 description: {
-                    tr: 'Altındere Vadisi’nde sarp kayalıklara oyulmuş, Trabzon’un en ünlü tarihi ve kültürel simgesidir.',
-                    en: 'Carved into steep cliffs in Altindere Valley, this is Trabzon’s most iconic historic landmark.',
-                    ar: 'يقع في وادي ألتينديري وهو منحوت في الصخور الشاهقة ويعد أشهر معلم تاريخي وثقافي في طرابزون.'
+                    tr: 'Altındere Vadisi’nde kayalıklara yaslanan konumuyla Trabzon’un en bilinen tarihi ve doğal duraklarındandır.',
+                    en: 'Set dramatically into the cliffs of Altindere Valley, one of Trabzon’s best-known historic sites.',
+                    ar: 'يقع على منحدر صخري في وادي ألتينديري ويُعد من أشهر المعالم التاريخية والطبيعية في طرابزون.'
                 },
-                coverImage: 'https://images.unsplash.com/photo-1623621534850-d325a1980c7e?auto=format&fit=crop&w=900&q=80',
+                coverImage: 'https://images.unsplash.com/photo-1446840908685-30f3a9e727f9?auto=format&fit=crop&w=900&q=80',
                 detailImages: [
-                    'https://images.unsplash.com/photo-1623621534850-d325a1980c7e?auto=format&fit=crop&w=1200&q=85',
-                    'https://images.unsplash.com/photo-1589561253898-768105ca91a8?auto=format&fit=crop&w=1200&q=85'
+                    'https://images.unsplash.com/photo-1446840908685-30f3a9e727f9?auto=format&fit=crop&w=1200&q=85'
                 ],
-                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=S%C3%BCmela+Manast%C4%B1r%C4%B1+Trabzon'
+                mapsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJi1a_zZhUZEARB00b4pkinzk'
             },
             {
                 id: 'cal-magarasi',
@@ -453,27 +567,80 @@
                     en: 'Duzkoy',
                     ar: 'دوزكوي'
                 },
-                distanceValue: 55,
-                distanceLabel: '~55 km',
+                distanceValue: 37.1,
+                distanceLabel: '~37.1 km',
                 driveMinutes: 60,
                 description: {
-                    tr: 'İçindeki yeraltı deresi, şelalesi ve ahşap yürüyüş yollarıyla dikkat çeken doğa harikası mağaradır.',
-                    en: 'A remarkable natural cave featuring an underground stream, waterfall, and wooden walkways.',
-                    ar: 'مغارة طبيعية مذهلة تضم نهراً جوفياً وشلالاً وممرات خشبية للمشي بداخلها.'
+                    tr: 'İçindeki yürüyüş yolları, yeraltı suyu ve kaya oluşumlarıyla dikkat çeken doğal mağaradır.',
+                    en: 'A notable natural cave featuring walking paths, underground water, and rock formations.',
+                    ar: 'مغارة طبيعية مميزة تضم ممرات للمشي ومياه جوفية وتكوينات صخرية.'
                 },
                 coverImage: 'https://images.unsplash.com/photo-1504386106331-3e4e71712b38?auto=format&fit=crop&w=900&q=80',
                 detailImages: [
-                    'https://images.unsplash.com/photo-1504386106331-3e4e71712b38?auto=format&fit=crop&w=1200&q=85',
+                    'https://images.unsplash.com/photo-1504386106331-3e4e71712b38?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJgZACAHRoZEAR2lEUCWyecUI'
+            },
+            {
+                id: 'hamsikoy',
+                category: 'visit',
+                title: {
+                    tr: 'Hamsiköy',
+                    en: 'Hamsikoy',
+                    ar: 'هامسيكوي'
+                },
+                area: {
+                    tr: 'Maçka',
+                    en: 'Macka',
+                    ar: 'ماتشكا'
+                },
+                distanceValue: 45.6,
+                distanceLabel: '~45.6 km',
+                driveMinutes: 60,
+                description: {
+                    tr: 'Zigana güzergâhında yer alan, dağ havası ve yöresel sütlacıyla bilinen geleneksel duraktır.',
+                    en: 'Located along the mountain route in Macka, known for fresh air and traditional rice pudding.',
+                    ar: 'تقع على الطريق الجبلي في ماتشكا وتشتهر بأجوائها المنعشة والأرز بالحليب التقليدي.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
                     'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=85'
                 ],
-                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=%C3%87al+Ma%C4%9Faras%C4%B1+Trabzon'
+                mapsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJOR7a4ClWZEARMEio1ey-PrU'
+            },
+            {
+                id: 'sultan-murat-yaylasi',
+                category: 'visit',
+                title: {
+                    tr: 'Sultan Murat Yaylası',
+                    en: 'Sultan Murat Plateau',
+                    ar: 'مرتفعات السلطان مراد'
+                },
+                area: {
+                    tr: 'Çaykara',
+                    en: 'Caykara',
+                    ar: 'تشايكارا'
+                },
+                distanceValue: 47.7,
+                distanceLabel: '~47.7 km',
+                driveMinutes: 80,
+                description: {
+                    tr: 'Geniş yayla çayırları ve yüksek dağ atmosferiyle öne çıkan günübirlik yayla rotasıdır.',
+                    en: 'A scenic highland plateau with wide meadows and crisp mountain air in the Caykara area.',
+                    ar: 'هضبة جبلية واسعة المروج وتتميز بأجوائها المرتفعة والمنعشة في منطقة تشايكارا.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJ6RMGONW9ZUAR2mfK3DUxSvE'
             },
             {
                 id: 'uzungol',
                 category: 'visit',
                 title: {
                     tr: 'Uzungöl',
-                    en: 'Uzungol Lake',
+                    en: 'Uzungol',
                     ar: 'بحيرة أوزنجول'
                 },
                 area: {
@@ -481,20 +648,46 @@
                     en: 'Caykara',
                     ar: 'تشايكارا'
                 },
-                distanceValue: 85,
-                distanceLabel: '~85 km',
-                driveMinutes: 75,
+                distanceValue: 55.9,
+                distanceLabel: '~55.9 km',
+                driveMinutes: 80,
                 description: {
-                    tr: 'Yemyeşil dağların ortasında yer alan göl manzarası ve yürüyüş yollarıyla doğaseverlerin favorisidir.',
-                    en: 'Surrounded by lush green mountains, this scenic lake offers peaceful walking paths and fresh air.',
-                    ar: 'بحيرة ساحرة تحيط بها الجبال الخضراء وتوفر مسارات للمشي وأجواء طبيعية هادئة.'
+                    tr: 'Vadi içindeki gölü, çevresindeki ormanlık yamaçları ve yürüyüş alanlarıyla en bilinen doğa rotasıdır.',
+                    en: 'A well-known valley lake surrounded by forested slopes and walking paths in Caykara.',
+                    ar: 'بحيرة معروفة بين الجبال والمنحدرات الخضراء ومسارات المشي في تشايكارا.'
                 },
                 coverImage: 'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=900&q=80',
                 detailImages: [
-                    'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=1200&q=85',
-                    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=85'
+                    'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=1200&q=85'
                 ],
-                mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Uzung%C3%B6l+Trabzon'
+                mapsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJZ3KUPFqUZUARVEwdBwpj9bk'
+            },
+            {
+                id: 'ayder-yaylasi',
+                category: 'visit',
+                title: {
+                    tr: 'Ayder Yaylası',
+                    en: 'Ayder Plateau',
+                    ar: 'مرتفعات آيدر'
+                },
+                area: {
+                    tr: 'Çamlıhemşin (Rize)',
+                    en: 'Camlihemsin (Rize)',
+                    ar: 'تشاملي هيمشين (ريزا)'
+                },
+                distanceValue: 109.8,
+                distanceLabel: '~110 km',
+                driveMinutes: 120,
+                description: {
+                    tr: 'Rize Çamlıhemşin sınırları içinde yer alan, vadi ve yayla manzarasıyla uzun günlük gezi rotasıdır.',
+                    en: 'Located in Camlihemsin (Rize), a full-day excursion destination known for valley and highland scenery.',
+                    ar: 'تقع في تشاملي هيمشين (ريزا) وتُعد وجهة لرحلة يوم كامل بإطلالاتها الجبلية والطبيعية.'
+                },
+                coverImage: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80',
+                detailImages: [
+                    'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=85'
+                ],
+                mapsUrl: 'https://www.google.com/maps/place/?q=place_id:ChIJkz3I-A0YZkAR_t6nEjiL4dg'
             },
 
             // ================= 2. RESTORANLAR (restaurants) - YAKINDAN UZAĞA =================
@@ -885,11 +1078,10 @@
                 return `
                     <button
                         onclick="selectCategory('${tab.id}')"
-                        class="flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
-                            isActive
-                                ? 'bg-mercure-navy text-white shadow-sm'
-                                : 'bg-slate-100 text-slate-600 hover:bg-slate-200/80 hover:text-mercure-navy'
-                        }"
+                        class="flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${isActive
+                        ? 'bg-mercure-navy text-white shadow-sm'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200/80 hover:text-mercure-navy'
+                    }"
                     >
                         <i data-lucide="${tab.icon}" class="w-4 h-4 shrink-0 ${isActive ? 'text-amber-400' : 'text-slate-500'}"></i>
                         <span class="truncate">${tab.label[currentLang]}</span>
@@ -1038,9 +1230,8 @@
             thumbsContainer.innerHTML = galleryImages.map((src, idx) => `
                 <button
                     onclick="goToGalleryPhoto(${idx})"
-                    class="w-14 h-10 rounded-lg overflow-hidden border-2 transition-all shrink-0 cursor-pointer ${
-                        idx === galleryIndex ? 'border-amber-400 scale-105 opacity-100' : 'border-transparent opacity-50 hover:opacity-80'
-                    }"
+                    class="w-14 h-10 rounded-lg overflow-hidden border-2 transition-all shrink-0 cursor-pointer ${idx === galleryIndex ? 'border-amber-400 scale-105 opacity-100' : 'border-transparent opacity-50 hover:opacity-80'
+                }"
                 >
                     <img src="${src}" alt="" class="w-full h-full object-cover">
                 </button>
@@ -1134,4 +1325,5 @@
         }
     </script>
 </body>
+
 </html>
